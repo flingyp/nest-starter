@@ -1,6 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
+  '@flypeng/tool': ^5.0.0
   '@nestjs/cli': ^9.0.0
   '@nestjs/common': ^9.0.0
   '@nestjs/core': ^9.0.0
@@ -32,6 +33,7 @@ specifiers:
   typescript: ^4.7.4
 
 dependencies:
+  '@flypeng/tool': 5.0.0
   '@nestjs/common': 9.2.1_mnr6j2del53muneqly5h4y27ai
   '@nestjs/core': 9.2.1_e6la6qvsclaae2becwjnmfvsuq
   '@nestjs/platform-express': 9.2.1_hjcqpoaebdr7gdo5hgc22hthbe
@@ -500,6 +502,10 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
+
+  /@flypeng/tool/5.0.0:
+    resolution: {integrity: sha512-k/Noojeh27jrwZLkpsGTob4lLCA9Gme6ds1O+jpQ42Oi4qNFDgV+mY/PWirkD1Iwct9vtymmAoh8ByONgTZ3hg==}
+    dev: false
 
   /@humanwhocodes/config-array/0.11.8:
     resolution: {integrity: sha512-UybHIJzJnR5Qc/MsD9Kr+RpO2h+/P1GhOwdiLPXK5TWk5sgTdu88bTD9UP+CKbPPh5Rni1u0GjAdYQLemG8g+g==}
