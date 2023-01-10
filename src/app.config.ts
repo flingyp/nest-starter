@@ -1,4 +1,8 @@
-import { INestApplication, VersioningType } from '@nestjs/common';
+import {
+  INestApplication,
+  ValidationPipe,
+  VersioningType,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import helmet from 'helmet';
 import { HttpExceptionFilter } from './filters/httpException/httpException.filter';
@@ -15,6 +19,12 @@ export const init = async (
   // set global prefix
   app.setGlobalPrefix(APPLICATION_PREFIX);
 
+  // set multi version
+  app.enableVersioning({
+    type: VersioningType.URI,
+    defaultVersion: `${APPLICATION_VERSION}`,
+  });
+
   // enable request header protect
   app.use(helmet());
 
@@ -24,10 +34,8 @@ export const init = async (
   // set global exception filter
   app.useGlobalFilters(new HttpExceptionFilter());
 
-  app.enableVersioning({
-    type: VersioningType.URI,
-    defaultVersion: `${APPLICATION_VERSION}`,
-  });
+  // set global validation pipe
+  app.useGlobalPipes(new ValidationPipe());
 
   // enable cors
   app.enableCors();

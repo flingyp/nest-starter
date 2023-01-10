@@ -11,3 +11,5 @@
 - [x] LoggerMiddleware 全局日志打印中间件
 - [x] Application Configuration 应用环境变量配置
 - [x] API Multi Version Control 多版本控制
+- [x] ValidationPipe 全局 DTO 验证管道
+- [x] HttpService Request Forwarding 请求转发
