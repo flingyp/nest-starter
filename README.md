@@ -9,3 +9,4 @@
 - [x] ResponseInterceptor 全局响应拦截器
 - [x] HttpExceptionFilter 全局异常过滤器
 - [x] LoggerMiddleware 全局日志打印中间件
+- [x] Application Configuration 应用环境变量配置
