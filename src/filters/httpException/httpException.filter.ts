@@ -10,7 +10,7 @@ import { Response } from 'express';
 
 @Catch()
 export class HttpExceptionFilter implements ExceptionFilter {
-  catch(exception: unknown, host: ArgumentsHost) {
+  catch(exception: any, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const request = ctx.getRequest<Request>();
     const response = ctx.getResponse<Response>();
@@ -19,9 +19,11 @@ export class HttpExceptionFilter implements ExceptionFilter {
       exception instanceof HttpException
         ? exception.getStatus()
         : HttpStatus.INTERNAL_SERVER_ERROR;
-    // TODO: 默认错误消息
+
     const message =
-      exception instanceof HttpException ? exception.getResponse() : '操作失败';
+      exception instanceof HttpException
+        ? exception.getResponse()
+        : exception.response?.data || '操作失败';
 
     Logger.error(exception, 'HttpexceptionFilter');
 
