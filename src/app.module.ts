@@ -3,12 +3,12 @@ import {
   Module,
   NestModule,
   RequestMethod,
-} from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
-import { LoggerMiddleware } from './middlewares/logger/logger.middleware';
-import { TestController } from './test/test.controller';
-import configuration from './app.config';
-import { HttpModule } from '@nestjs/axios';
+} from '@nestjs/common'
+import { ConfigModule } from '@nestjs/config'
+import { HttpModule } from '@nestjs/axios'
+import { LoggerMiddleware } from './middlewares/logger/logger.middleware'
+import { TestController } from './test/test.controller'
+import configuration from './app.config'
 
 @Module({
   imports: [
@@ -24,6 +24,6 @@ export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(LoggerMiddleware)
-      .forRoutes({ path: '*', method: RequestMethod.ALL });
+      .forRoutes({ path: '*', method: RequestMethod.ALL })
   }
 }
