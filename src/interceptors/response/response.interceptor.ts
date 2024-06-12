@@ -1,10 +1,5 @@
-import {
-  CallHandler, ExecutionContext,
-  HttpStatus,
-  Injectable,
-  NestInterceptor,
-} from '@nestjs/common'
-import { Observable, map } from 'rxjs'
+import { CallHandler, ExecutionContext, HttpStatus, Injectable, NestInterceptor } from '@nestjs/common';
+import { Observable, map } from 'rxjs';
 
 export interface GlobalResponse {
   statusCode: HttpStatus;
@@ -29,9 +24,9 @@ export class ResponseInterceptor implements NestInterceptor {
     return next.handle().pipe(
       map((value: unknown) => {
         // TODO: 默认提示消息
-        if (value instanceof ResponseInstance) return value
-        return new ResponseInstance(200, value, '操作成功')
+        if (value instanceof ResponseInstance) return value;
+        return new ResponseInstance(200, value, '操作成功');
       }),
-    )
+    );
   }
 }
