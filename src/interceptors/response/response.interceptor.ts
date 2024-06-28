@@ -2,16 +2,18 @@ import { CallHandler, ExecutionContext, HttpStatus, Injectable, NestInterceptor 
 import { Observable, map } from 'rxjs';
 
 export interface GlobalResponse {
-  statusCode: HttpStatus;
+  code: HttpStatus;
   data: unknown;
   message: string;
+  success: boolean;
 }
 
 export class ResponseInstance<T> implements GlobalResponse {
   constructor(
-    public statusCode: HttpStatus,
+    public code: HttpStatus,
     public data: T,
     public message: string,
+    public success: boolean = true,
   ) {}
 }
 
@@ -25,7 +27,7 @@ export class ResponseInterceptor implements NestInterceptor {
       map((value: unknown) => {
         // TODO: 默认提示消息
         if (value instanceof ResponseInstance) return value;
-        return new ResponseInstance(200, value, '操作成功');
+        return new ResponseInstance(200, value, '操作成功', true);
       }),
     );
   }

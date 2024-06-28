@@ -8,19 +8,22 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const request = ctx.getRequest<Request>();
     const response = ctx.getResponse<Response>();
     const path = request.url;
-    const statusCode = exception instanceof HttpException ? exception.getStatus() : HttpStatus.INTERNAL_SERVER_ERROR;
+    const code = exception instanceof HttpException ? exception.getStatus() : HttpStatus.INTERNAL_SERVER_ERROR;
 
     const message =
       exception instanceof HttpException ? exception.getResponse() : exception.response?.data || '操作失败';
 
-    Logger.error(exception, 'HttpexceptionFilter');
+    Logger.error('HttpExceptionFilter:', exception);
 
     response.header('Content-Type', 'application/json; charset=utf-8');
-    response.status(statusCode).json({
-      path,
-      statusCode,
+    response.status(code).json({
+      code,
+      data: {
+        path,
+        timestamp: Date.now(),
+      },
       message,
-      timestamp: Date.now(),
+      success: false,
     });
   }
 }
