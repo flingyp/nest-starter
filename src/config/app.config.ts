@@ -1,9 +1,16 @@
+import {
+  ClassSerializerInterceptor,
+  INestApplication,
+  ValidationPipe,
+  VERSION_NEUTRAL,
+  VersioningType,
+} from '@nestjs/common';
+import { Reflector } from '@nestjs/core';
+import { ConfigService } from '@nestjs/config';
+import helmet from 'helmet';
 import * as yaml from 'js-yaml';
 import { join } from 'path';
 import { readFileSync } from 'fs';
-import { INestApplication, VERSION_NEUTRAL, VersioningType } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import helmet from 'helmet';
 
 import { GlobalResponseInterceptor } from '../interceptors/GlobalResponseInterceptor';
 import { GlobalHttpExceptionFilter } from '../filters/GlobalHttpExceptionFilter';
@@ -48,6 +55,15 @@ export const initApplication = async (app: INestApplication, configService: Conf
 
   // 设置全局异常过滤器
   app.useGlobalFilters(new GlobalHttpExceptionFilter());
+
+  // 注册全局序列化拦截器
+  app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
+
+  /**
+   * 设置全局验证管道
+   * 参考文档：https://docs.nestjs.cn/10/techniques?id=%e9%aa%8c%e8%af%81
+   */
+  app.useGlobalPipes(new ValidationPipe());
 
   app.use(helmet());
 

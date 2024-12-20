@@ -40,6 +40,8 @@ export class GlobalHttpExceptionFilter implements ExceptionFilter {
   private handleHttpException(exception: HttpException, request: Request) {
     const response = exception.getResponse();
     const status = exception.getStatus();
+
+    // 场景一：项目中主动抛出的 HttpException 异常
     if (typeof response === 'string') {
       return {
         code: status,
@@ -47,9 +49,16 @@ export class GlobalHttpExceptionFilter implements ExceptionFilter {
       };
     }
 
+    // 场景二：全局验证管道抛出的异常
+    // @ts-ignore
+    let message = response?.message;
+    if (message && Array.isArray(message)) {
+      message = message.join(',');
+    }
+
     return {
       code: status,
-      message: '服务器内部错误',
+      message: message || '服务器内部错误',
     };
   }
 

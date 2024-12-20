@@ -79,6 +79,40 @@ const APPLICATION_PORT = this.configService.get<number>('application.port');
 throw new HttpException('这是一条自定义错误信息', HttpStatus.INTERNAL_SERVER_ERROR);
 ```
 
+## 全局验证管道
+
+在 `app.config.ts` 配置了内置的验证管道，可以全局使用，用于验证 DTO 层面参数的有效性
+
+```ts
+app.useGlobalPipes(new ValidationPipe());
+```
+
+使用方式：
+
+```ts
+import { Body, Controller, Get, Post } from '@nestjs/common';
+import { AppService } from './app.service';
+import { IsEmail, IsNotEmpty } from 'class-validator';
+
+export class ValidationPipeDto {
+  @IsEmail({}, { message: '邮箱格式不正确' })
+  email: string;
+
+  @IsNotEmpty({ message: '密码不能为空' })
+  password: string;
+}
+
+@Controller()
+export class AppController {
+  constructor(private readonly appService: AppService) {}
+
+  @Post('validationPipe')
+  validationPipe(@Body() validationPipeDto: ValidationPipeDto) {
+    return validationPipeDto;
+  }
+}
+```
+
 ## 快速创建一个模块
 
 - 运行命令 `nest generate resource modules_name --no-spec`
