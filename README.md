@@ -46,6 +46,39 @@ constructor(private configService: ConfigService) {}
 const APPLICATION_PORT = this.configService.get<number>('application.port');
 ```
 
+## 全局响应拦截器 GlobalResponseInterceptor
+
+`GlobalResponse` 全局响应类，用于统一返回格式，并且可以全局配置返回状态码
+
+```json
+{
+  "data": "Hello World!",
+  "code": 200,
+  "message": "操作成功",
+  "success": true
+}
+```
+
+## 全局异常过滤器 GlobalHttpExceptionFilter
+
+`GlobalHttpException` 全局异常类，用于统一处理异常，并且可以全局配置返回状态码
+
+```json
+{
+  "data": null,
+  "code": 409,
+  "message": "这是一条自定义错误信息",
+  "success": false
+}
+```
+
+正常逻辑代码抛出异常，可以这么写
+
+```ts
+// HttpException 是 Nest 提供的基础异常类，基于 HttpException 类还有很多子类，例如 BadRequestException、NotFoundException、UnauthorizedException 等
+throw new HttpException('这是一条自定义错误信息', HttpStatus.INTERNAL_SERVER_ERROR);
+```
+
 ## 快速创建一个模块
 
 - 运行命令 `nest generate resource modules_name --no-spec`

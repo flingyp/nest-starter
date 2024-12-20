@@ -3,6 +3,10 @@ import { join } from 'path';
 import { readFileSync } from 'fs';
 import { INestApplication, VERSION_NEUTRAL, VersioningType } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import helmet from 'helmet';
+
+import { GlobalResponseInterceptor } from '../interceptors/GlobalResponseInterceptor';
+import { GlobalHttpExceptionFilter } from '../filters/GlobalHttpExceptionFilter';
 
 export interface AppConfig {
   application: {
@@ -38,4 +42,15 @@ export const initApplication = async (app: INestApplication, configService: Conf
     header: 'X-API-VERSION',
     defaultVersion: VERSION_NEUTRAL,
   });
+
+  // 设置全局响应拦截器
+  app.useGlobalInterceptors(new GlobalResponseInterceptor());
+
+  // 设置全局异常过滤器
+  app.useGlobalFilters(new GlobalHttpExceptionFilter());
+
+  app.use(helmet());
+
+  // 允许跨域
+  app.enableCors();
 };
