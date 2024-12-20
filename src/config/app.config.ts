@@ -7,6 +7,7 @@ import {
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { ConfigService } from '@nestjs/config';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import helmet from 'helmet';
 import * as yaml from 'js-yaml';
 import { join } from 'path';
@@ -36,6 +37,7 @@ export default async () => {
 
 export const initApplication = async (app: INestApplication, configService: ConfigService) => {
   const APPLICATION_PREFIX = configService.get<string>('application.prefix');
+  const APPLICATION_VERSION = configService.get<string>('application.version');
 
   // 设置全局路由前缀
   app.setGlobalPrefix(APPLICATION_PREFIX ?? '');
@@ -69,4 +71,14 @@ export const initApplication = async (app: INestApplication, configService: Conf
 
   // 允许跨域
   app.enableCors();
+
+  // Swagger 配置
+  const config = new DocumentBuilder()
+    .setTitle('NestJS Starter API')
+    .setDescription('NestJS Starter API Description')
+    .setVersion(APPLICATION_VERSION ?? '1.0.0')
+    .addBearerAuth()
+    .build();
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('/swagger-docs', app, document);
 };
