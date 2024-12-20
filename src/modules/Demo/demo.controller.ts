@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { DemoService } from './demo.service'; // 确保路径正确
-import { DemoDto } from './demo.dto'; // 确保路径正确
+import { ApiTags, ApiOperation } from '@nestjs/swagger';
+import { DemoService } from './demo.service';
+import { DemoDto } from './demo.dto';
 
 @ApiTags('Demo 管理')
 @Controller('demo')

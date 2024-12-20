@@ -30,7 +30,7 @@ export default async () => {
   });
 
   const envConfig = yaml.load(yamlFileContent) as AppConfig;
-  console.log('envConfig:', envConfig);
+  console.log('环境配置:', envConfig);
 
   return envConfig;
 };
