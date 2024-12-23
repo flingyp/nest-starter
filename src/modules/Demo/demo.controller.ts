@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { DemoService } from './demo.service';
 import { DemoDto } from './demo.dto';
@@ -8,33 +8,33 @@ import { DemoDto } from './demo.dto';
 export class DemoController {
   constructor(private readonly demoService: DemoService) {}
 
-  @Post()
-  @ApiOperation({ summary: '创建 Demo' })
-  create(@Body() demoDto: DemoDto) {
-    return this.demoService.create(demoDto);
-  }
-
-  @Get()
+  @Get('getDemoList')
   @ApiOperation({ summary: '获取所有 Demo' })
-  findAll() {
-    return this.demoService.findAll();
+  getDemoList() {
+    return this.demoService.getDemoList();
   }
 
-  @Get(':id')
+  @Get('getById')
   @ApiOperation({ summary: '根据 ID 获取 Demo' })
-  findOne(@Param('id') id: string) {
-    return this.demoService.findOne(id);
+  getById(@Query('id') id: string) {
+    return this.demoService.getById(id);
   }
 
-  @Put('')
+  @Post('createDemo')
+  @ApiOperation({ summary: '创建 Demo' })
+  createDemo(@Body() demoDto: DemoDto) {
+    return this.demoService.createDemo(demoDto);
+  }
+
+  @Post('updateDemo')
   @ApiOperation({ summary: '更新 Demo' })
-  update(@Body() demoDto: DemoDto) {
-    return this.demoService.update(demoDto);
+  updateDemo(@Body() demoDto: DemoDto) {
+    return this.demoService.updateDemo(demoDto);
   }
 
-  @Delete(':id')
+  @Post('removeById')
   @ApiOperation({ summary: '删除 Demo' })
-  remove(@Param('id') id: string) {
-    return this.demoService.remove(id);
+  removeById(@Query('id') id: string) {
+    return this.demoService.removeById(id);
   }
 }

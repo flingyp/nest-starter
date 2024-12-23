@@ -115,4 +115,6 @@ export class AppController {
 
 ## 快速创建一个模块
 
-- 运行命令 `nest generate resource modules_name --no-spec`
+模块目录结构参考：`modules/Demo`
+
+- 执行命令 `nest generate resource modules_name --no-spec`

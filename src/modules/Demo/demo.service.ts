@@ -5,20 +5,20 @@ import { DemoDto } from './demo.dto';
 export class DemoService {
   private demos: DemoDto[] = [];
 
-  create(demoDto: DemoDto) {
+  getDemoList() {
+    return this.demos;
+  }
+
+  getById(id: string) {
+    return this.demos.find((demo) => demo.id === id);
+  }
+
+  createDemo(demoDto: DemoDto) {
     this.demos.push(demoDto);
     return demoDto;
   }
 
-  findAll() {
-    return this.demos;
-  }
-
-  findOne(id: string) {
-    return this.demos.find((demo) => demo.id === id);
-  }
-
-  update(demoDto: DemoDto) {
+  updateDemo(demoDto: DemoDto) {
     const index = this.demos.findIndex((demo) => demo.id === demoDto.id);
     if (index > -1) {
       this.demos[index] = demoDto;
@@ -27,7 +27,7 @@ export class DemoService {
     return null;
   }
 
-  remove(id: string) {
+  removeById(id: string) {
     const index = this.demos.findIndex((demo) => demo.id === id);
     if (index > -1) {
       return this.demos.splice(index, 1);
