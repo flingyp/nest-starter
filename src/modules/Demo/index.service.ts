@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { DemoDto } from './demo.dto';
+import { DemoDto } from './index.dto';
 
 @Injectable()
 export class DemoService {
   private demos: DemoDto[] = [];
 
-  getDemoList() {
+  getList() {
     return this.demos;
   }
 

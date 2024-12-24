@@ -1,17 +1,17 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
-import { DemoService } from './demo.service';
-import { DemoDto } from './demo.dto';
+import { DemoService } from './index.service';
+import { DemoDto } from './index.dto';
 
 @ApiTags('Demo 管理')
 @Controller('demo')
 export class DemoController {
   constructor(private readonly demoService: DemoService) {}
 
-  @Get('getDemoList')
-  @ApiOperation({ summary: '获取所有 Demo' })
-  getDemoList() {
-    return this.demoService.getDemoList();
+  @Post('getList')
+  @ApiOperation({ summary: '获取 Demo 列表' })
+  getList() {
+    return this.demoService.getList();
   }
 
   @Get('getById')
