@@ -115,6 +115,35 @@ export class AppController {
 
 ## 快速创建一个模块
 
-模块目录结构参考：`modules/Demo`
+- 参考 Demo模块：`modules/Demo`
+- 也可执行命令创建模块 `nest generate resource modules_name --no-spec`
 
-- 执行命令 `nest generate resource modules_name --no-spec`
+## 集成阿里云OSS
+
+在 `.yaml` 文件配置自己的阿里云OSS配置即可
+
+上传文件的接口在 `modules/Common/index.controller.ts` 中，可以参考使用
+
+```yaml
+# 阿里OSS配置
+oss:
+  endpoint: ''
+  accessKeyId: ''
+  accessKeySecret: ''
+  bucket: ''
+```
+
+## `compodoc` 生成文档
+
+`compodoc` 本来是给 Angular 项目生成项目文档的，但是因为 Angular 和 NestJS 项目结构类似，所以也支持了 NestJS
+
+它会列出项目的模块，可视化展示模块之间的依赖关系，展示每个模块下的 provider、exports 等
+
+安装：`pnpm add @compodoc/compodoc -D`
+
+- 生成文档：`npx @compodoc/compodoc -p tsconfig.json -s -o`
+- -p 是指定 tsconfig 文件
+- -s 是启动静态服务器
+- -o 是打开浏览器
+
+> 更多选项参考文档：[compodoc](https://compodoc.app/guides/options.html)

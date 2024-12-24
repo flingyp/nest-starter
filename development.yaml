@@ -13,3 +13,10 @@ mysql:
   password: 'root'
   synchronize: true
   logging: true
+
+# 阿里OSS配置
+oss:
+  endpoint: ''
+  accessKeyId: ''
+  accessKeySecret: ''
+  bucket: ''
