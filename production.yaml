@@ -2,3 +2,20 @@ application:
   port: 8081
   prefix: 'api'
   version: 1.0.0
+
+# MySQL数据库配置
+mysql:
+  db: '自定义库名'
+  host: 'localhost'
+  port: 3306
+  username: 'root'
+  password: 'root'
+  synchronize: true
+  logging: true
+
+# 阿里OSS配置
+oss:
+  endpoint: ''
+  accessKeyId: ''
+  accessKeySecret: ''
+  bucket: ''

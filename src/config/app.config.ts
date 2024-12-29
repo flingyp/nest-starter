@@ -4,6 +4,7 @@ import {
   ValidationPipe,
   VERSION_NEUTRAL,
   VersioningType,
+  Logger,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { ConfigService } from '@nestjs/config';
@@ -30,8 +31,7 @@ export default async () => {
   });
 
   const envConfig = yaml.load(yamlFileContent) as AppConfig;
-  console.log('环境配置:', envConfig);
-
+  Logger.verbose(envConfig, '环境配置');
   return envConfig;
 };
 

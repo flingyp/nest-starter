@@ -1,15 +1,20 @@
 # Nest Starter
 
-## 全局配置
+## 环境配置和全局配置
 
-- `config/app.config.ts`
+一般在 `development.yaml` 和 `production.yaml` 配置好不同环境的配置，然后在 `config/app.config.ts` 中通过 `ConfigModule.forRoot()` 方法加载配置文件，并且之后可以通过 `ConfigService` 在引用中任何地方获取配置信息
 
-## 环境配置
+在 `scripts` 脚本中，通过 `cross-env` 设置Node环境变量，从而读取不同Yaml环境的配置
 
-- 在 `package.json - scripts` 中配置 `cross-env` 设置Node环境变量，
-- `config/app.config.ts` 中，通过 `process.env.NODE_ENV` 获取Node环境变量，从而读取不同Yaml环境的配置
-
-ConfigModule 被注入为全局模块，所以在应用中可以通过 `ConfigService` 获取配置
+```json
+{
+  "scripts": {
+    "start:dev": "cross-env NODE_ENV=development nest start --watch",
+    "start:debug": "cross-env NODE_ENV=development nest start --debug --watch",
+    "start:prod": "cross-env NODE_ENV=production node dist/main"
+  }
+}
+```
 
 ## API 多版本控制
 

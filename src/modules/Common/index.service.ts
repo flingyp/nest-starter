@@ -7,14 +7,14 @@ export class CommonService {
   private client: any;
 
   constructor(private readonly configService: ConfigService) {
-    const { endpoint, accessKeyId, accessKeySecret, bucket } = this.configService.get('oss');
-
-    this.client = new OSS({
-      region: endpoint, // 你的OSS区域
-      accessKeyId,
-      accessKeySecret,
-      bucket,
-    });
+    // CHORE: 阿里云OSS配置后开启
+    // const { endpoint, accessKeyId, accessKeySecret, bucket } = this.configService.get('oss');
+    // this.client = new OSS({
+    //   region: endpoint, // 你的OSS区域
+    //   accessKeyId,
+    //   accessKeySecret,
+    //   bucket,
+    // });
   }
 
   async uploadFileToOSS(localPath: string, ossPath: string) {

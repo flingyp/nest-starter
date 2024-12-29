@@ -5,6 +5,6 @@ export abstract class CommonEntity {
   @CreateDateColumn({ name: 'created_time', comment: '创建日期' })
   createdAt: Date;
 
-  @UpdateDateColumn({ name: 'update_time', comment: '更新日期' })
+  @UpdateDateColumn({ name: 'updated_time', comment: '更新日期' })
   updatedAt: Date;
 }
