@@ -5,11 +5,11 @@ import { DemoDto } from './index.dto';
 export class DemoService {
   private demos: DemoDto[] = [];
 
-  getList() {
+  getDemoList() {
     return this.demos;
   }
 
-  getById(id: string) {
+  getDemoById(id: string) {
     return this.demos.find((demo) => demo.id === id);
   }
 
@@ -27,7 +27,7 @@ export class DemoService {
     return null;
   }
 
-  removeById(id: string) {
+  deleteDemoById(id: string) {
     const index = this.demos.findIndex((demo) => demo.id === id);
     if (index > -1) {
       return this.demos.splice(index, 1);

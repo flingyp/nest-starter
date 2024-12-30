@@ -8,16 +8,16 @@ import { DemoDto } from './index.dto';
 export class DemoController {
   constructor(private readonly demoService: DemoService) {}
 
-  @Post('getList')
+  @Post('getDemoList')
   @ApiOperation({ summary: '获取 Demo 列表' })
-  getList() {
-    return this.demoService.getList();
+  getDemoList() {
+    return this.demoService.getDemoList();
   }
 
-  @Get('getById')
+  @Get('getDemoById')
   @ApiOperation({ summary: '根据 ID 获取 Demo' })
-  getById(@Query('id') id: string) {
-    return this.demoService.getById(id);
+  getDemoById(@Query('id') id: string) {
+    return this.demoService.getDemoById(id);
   }
 
   @Post('createDemo')
@@ -32,9 +32,9 @@ export class DemoController {
     return this.demoService.updateDemo(demoDto);
   }
 
-  @Post('removeById')
+  @Post('deleteDemoById')
   @ApiOperation({ summary: '删除 Demo' })
-  removeById(@Query('id') id: string) {
-    return this.demoService.removeById(id);
+  deleteDemoById(@Query('id') id: string) {
+    return this.demoService.deleteDemoById(id);
   }
 }
