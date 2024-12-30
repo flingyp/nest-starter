@@ -152,3 +152,38 @@ oss:
 - -o 是打开浏览器
 
 > 更多选项参考文档：[compodoc](https://compodoc.app/guides/options.html)
+
+## 系统日志输出和管理
+
+- [集成文档](https://www.levenx.com/article/how-to-use-winston-logging-system-in-nestjs)
+
+正常情况下，如果只需要在控制台输出日志打印信息即可，我们可以使用 NestJS 提供的 Logger 类或者直接使用 `console.log` 输出日志信息。但是当系统变得复杂的时候，我们可能需要将日志输出到文件中，或者使用日志管理系统来管理日志，这时候就需要用到日志框架 Winston
+
+项目中在 `utils/WinstonLogger` 定义了一个 `WinstonLogger` 类并且在 Common 全局模块导出，这样就可以在项目中直接使用 `WinstonLogger` 类来输出日志信息了，日志会输出在 logs 文件夹下
+
+```ts
+import { Controller, Get, Inject } from '@nestjs/common';
+import { ApiTags, ApiOperation } from '@nestjs/swagger';
+import { WinstonLogger } from 'src/utils/WinstonLogger';
+
+export class AuthController {
+  constructor() {}
+
+  @Inject(WinstonLogger)
+  private readonly logger: WinstonLogger;
+
+  @ApiOperation({ summary: 'Hello Auth!' })
+  @Get('hello')
+  getHello(): string {
+    this.logger.log('Doing something...');
+    // 其它逻辑
+    try {
+      // 尝试可能引发错误的操作
+      this.logger.warn('Warning something...');
+      return 'Hello World!';
+    } catch (error) {
+      this.logger.error('An error occurred', error.trace);
+    }
+  }
+}
+```

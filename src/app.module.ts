@@ -35,6 +35,5 @@ import { DemoModule, CommonModule, AuthModule } from './modules';
     AuthModule,
   ],
   controllers: [AppController],
-  providers: [],
 })
 export class AppModule {}

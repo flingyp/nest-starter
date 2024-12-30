@@ -1,9 +1,12 @@
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { CommonController } from './index.controller';
 import { CommonService } from './index.service';
+import { WinstonLogger } from 'src/utils/WinstonLogger';
 
+@Global()
 @Module({
   controllers: [CommonController],
-  providers: [CommonService],
+  providers: [CommonService, WinstonLogger],
+  exports: [WinstonLogger],
 })
 export class CommonModule {}
