@@ -13,6 +13,6 @@ export class DemoTask {
   // 每五秒钟执行一次
   @Cron('*/5 * * * * *')
   getTime() {
-    this.logger.log(`当前时间: ${this.dayjs().format('YYYY-MM-DD HH:mm:ss')}`);
+    this.logger.log(`当前时间: ${this.dayjs().format('YYYY-MM-DD')}`);
   }
 }

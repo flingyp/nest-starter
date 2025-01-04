@@ -10,17 +10,23 @@ export class WinstonLogger implements LoggerService {
   private logger: winston.Logger;
 
   constructor() {
-    const rotateTransport = new WinstonDailyRotateFile({
-      dirname: 'logs',
-      filename: 'application-%DATE%.log',
-      datePattern: 'YYYY-MM-DD',
-      zippedArchive: true,
-      maxSize: '20m',
-      maxFiles: '14d',
-    });
-
     this.logger = winston.createLogger({
-      transports: [rotateTransport, new winston.transports.Console()],
+      format: winston.format.json(), // 日志格式为 JSON
+      transports: [
+        new WinstonDailyRotateFile({
+          dirname: 'logs', // 日志文件目录
+          filename: 'application-%DATE%.log', // 日志文件名
+          datePattern: 'YYYY-MM-DD', // 按日期轮转
+          zippedArchive: true, // 压缩归档
+          maxSize: '20m', // 最大文件大小
+          maxFiles: '14d', // 最大文件数量,
+          format: winston.format.combine(
+            winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }), // 添加时间戳
+            winston.format.json(),
+          ),
+        }),
+        new winston.transports.Console(), // 控制台输出
+      ],
     });
   }
 
