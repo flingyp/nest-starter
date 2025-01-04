@@ -1,9 +1,11 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ScheduleModule } from '@nestjs/schedule';
 import config from './config/app.config';
 import { AppController } from './app.controller';
 import { DemoModule, CommonModule, AuthModule } from './modules';
+import { DemoTask } from './schedules';
 
 @Module({
   imports: [
@@ -30,10 +32,13 @@ import { DemoModule, CommonModule, AuthModule } from './modules';
     //     };
     //   },
     // }),
+    // 任务调度模块
+    ScheduleModule.forRoot(),
     DemoModule,
     CommonModule,
     AuthModule,
   ],
   controllers: [AppController],
+  providers: [DemoTask],
 })
 export class AppModule {}

@@ -187,3 +187,18 @@ export class AuthController {
   }
 }
 ```
+
+## 任务调度
+
+任务调度允许我们编写任意代码（方法/函数）在固定日期/时间、重复间隔或在指定间隔后执行一次
+
+应用中所需要执行的任务调度在 `schedules` 目录中定义服务，所有的任务调度服务以具体名称+Task命名，例如：`DemoTask`，然后所有被 `@Injectable` 的任务需要在 `app.modules.ts` 中的 `providers` 中注册，以便于被应用扫描注册到
+
+```ts
+@Module({
+  imports: [ScheduleModule.forRoot()],
+  // 添加所有需要被扫描的任务调度服务
+  providers: [DemoTask],
+})
+export class AppModule {}
+```
