@@ -14,6 +14,11 @@ mysql:
   synchronize: true
   logging: true
 
+# Redis配置
+redis:
+  host: 'localhost'
+  port: 6379
+
 # 阿里OSS配置
 oss:
   endpoint: ''
