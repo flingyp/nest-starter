@@ -1,7 +1,19 @@
 import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
+import { IsEmail, IsNotEmpty } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
 import { DemoService } from './index.service';
 import { DemoDto } from './index.dto';
+
+export class ValidationPipeDto {
+  @ApiProperty({ example: '123456789@qq.com', description: '邮箱' })
+  @IsEmail({}, { message: '邮箱格式不正确' })
+  email: string;
+
+  @ApiProperty({ example: '123456', description: '密码' })
+  @IsNotEmpty({ message: '密码不能为空' })
+  password: string;
+}
 
 @ApiTags('Demo 管理')
 @Controller('demo')
@@ -36,5 +48,10 @@ export class DemoController {
   @ApiOperation({ summary: '删除 Demo' })
   deleteDemoById(@Query('id') id: string) {
     return this.demoService.deleteDemoById(id);
+  }
+
+  @Post('校验接口参数例子')
+  validationPipe(@Body() validationPipeDto: ValidationPipeDto) {
+    return validationPipeDto;
   }
 }

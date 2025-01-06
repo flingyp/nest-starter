@@ -11,16 +11,11 @@ export class AuthController {
   @Inject(WinstonLogger)
   private readonly logger: WinstonLogger;
 
-  @Inject('REDIS_CLIENT')
-  private readonly redisClient: RedisClientType;
-
   @ApiOperation({ summary: 'Hello Auth!' })
   @Get('hello')
   async getHello() {
-    const setValue = await this.redisClient.set('key1', 202401051605);
-    const value = await this.redisClient.get('key1');
+    this.logger.log('Doing something...');
 
-    this.logger.log(`Doing something... ${value}`);
     // 其它逻辑
     try {
       // 尝试可能引发错误的操作

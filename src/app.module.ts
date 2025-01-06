@@ -3,8 +3,9 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ScheduleModule } from '@nestjs/schedule';
 import config from './config/app.config';
-import { AppController } from './app.controller';
+
 import { DemoModule, CommonModule, AuthModule } from './modules';
+
 import { DemoTask } from './schedules';
 
 @Module({
@@ -38,7 +39,6 @@ import { DemoTask } from './schedules';
     CommonModule,
     AuthModule,
   ],
-  controllers: [AppController],
   providers: [DemoTask],
 })
 export class AppModule {}

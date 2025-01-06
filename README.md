@@ -1,5 +1,28 @@
 # Nest Starter
 
+## 模版文件目录
+
+```sh
+├── README.md
+├── development.yaml # 开发环境配置文件
+├── nest-cli.json
+├── package.json
+├── pnpm-lock.yaml
+├── production.yaml # 生产环境配置文件
+├── src
+│   ├── app.module.ts # 根模块
+│   ├── config # 应用初始化配置
+│   ├── entities # 数据库表实体
+│   ├── filters # 过滤器
+│   ├── interceptors # 拦截器
+│   ├── main.ts # 应用入口文件
+│   ├── modules # 业务模块
+│   ├── schedules # 定时任务
+│   └── utils # 工具类
+├── tsconfig.build.json
+└── tsconfig.json
+```
+
 ## 环境配置和全局配置
 
 一般在 `development.yaml` 和 `production.yaml` 配置好不同环境的配置，然后在 `config/app.config.ts` 中通过 `ConfigModule.forRoot()` 方法加载配置文件，并且之后可以通过 `ConfigService` 在引用中任何地方获取配置信息
@@ -233,7 +256,7 @@ Redis 配置在 `.env` 文件中，在全局模块 CommonModule 中提供一个�
 export class CommonModule {}
 ```
 
-基本使用方式
+基本使用 Redis 方式
 
 ```ts
 export class Controller {

@@ -13,22 +13,27 @@ import { WinstonLogger } from 'src/utils/WinstonLogger';
     WinstonLogger,
 
     // CHORE: Redis 配置，在 .yaml 配置好后开启
-    {
-      provide: 'REDIS_CLIENT',
-      inject: [ConfigService],
-      async useFactory(configService: ConfigService) {
-        const config = configService.get('redis');
-        const client = createClient({
-          socket: {
-            host: config.host,
-            port: config.port,
-          },
-        });
-        await client.connect();
-        return client;
-      },
-    },
+    // {
+    //   provide: 'REDIS_CLIENT',
+    //   inject: [ConfigService],
+    //   async useFactory(configService: ConfigService) {
+    //     const config = configService.get('redis');
+    //     const client = createClient({
+    //       socket: {
+    //         host: config.host,
+    //         port: config.port,
+    //       },
+    //     });
+    //     await client.connect();
+    //     return client;
+    //   },
+    // },
   ],
-  exports: [WinstonLogger, 'REDIS_CLIENT'],
+  exports: [
+    WinstonLogger,
+
+    // CHORE: Redis 配置，在 .yaml 配置好后开启
+    // 'REDIS_CLIENT'
+  ],
 })
 export class CommonModule {}
