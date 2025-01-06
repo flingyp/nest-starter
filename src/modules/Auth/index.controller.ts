@@ -1,6 +1,5 @@
 import { Controller, Get, Inject } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
-import { RedisClientType } from 'redis';
 import { WinstonLogger } from 'src/utils/WinstonLogger';
 
 @ApiTags('Auth 管理')

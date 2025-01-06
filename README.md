@@ -228,52 +228,7 @@ export class AppModule {}
 
 ## Redis 配置
 
-Redis 配置在 `.env` 文件中，在全局模块 CommonModule 中提供一个全局的 provider，即可在需要使用 Redis 的地方注入即可
-
-```ts
-@Global()
-@Module({
-  providers: [
-    // CHORE: Redis 配置，在 .yaml 配置好后开启
-    {
-      provide: 'REDIS_CLIENT',
-      inject: [ConfigService],
-      async useFactory(configService: ConfigService) {
-        const config = configService.get('redis');
-        const client = createClient({
-          socket: {
-            host: config.host,
-            port: config.port,
-          },
-        });
-        await client.connect();
-        return client;
-      },
-    },
-  ],
-  exports: ['REDIS_CLIENT'],
-})
-export class CommonModule {}
-```
-
-基本使用 Redis 方式
-
-```ts
-export class Controller {
-  constructor() {}
-
-  @Inject('REDIS_CLIENT')
-  private readonly redisClient: RedisClientType;
-
-  @Get('hello')
-  async getHello() {
-    const setValue = await this.redisClient.set(key, value);
-    const value = await this.redisClient.get(key);
-  }
-}
-```
-
-另外也单独封装了一个 `RedisService` 在 `CommonModule` 全局模块中提供，这样就可以在需要使用 Redis 的地方直接注入 `RedisService` 即可
+Redis 配置在 `.env` 文件中，在全局模块 CommonModule 中封装导出了一个全局的 RedisService，这样就可以在需要使用 Redis 的地方直接注入 `RedisService` 即可
 
 ```ts
 export class Controller {
