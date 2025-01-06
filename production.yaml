@@ -1,17 +1,17 @@
 application:
-  port: 8081
+  port: 8080
   prefix: 'api'
   version: 1.0.0
 
 # MySQL数据库配置
 mysql:
-  db: '自定义库名'
-  host: 'localhost'
+  db: ''
+  host: ''
   port: 3306
-  username: 'root'
-  password: 'root'
-  synchronize: true
-  logging: true
+  username: ''
+  password: ''
+  synchronize: false
+  logging: false
 
 # Redis配置
 redis:

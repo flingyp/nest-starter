@@ -17,21 +17,16 @@ import { readFileSync } from 'fs';
 import { GlobalResponseInterceptor } from '../interceptors/GlobalResponseInterceptor';
 import { GlobalHttpExceptionFilter } from '../filters/GlobalHttpExceptionFilter';
 
-export interface AppConfig {
-  application: {
-    port: number;
-  };
-}
-
 export default async () => {
   const env = process.env.NODE_ENV || 'development';
   const configFilePath = join(process.cwd(), `${env}.yaml`);
   const yamlFileContent = await readFileSync(configFilePath, {
     encoding: 'utf-8',
   });
+  const envConfig = yaml.load(yamlFileContent);
 
-  const envConfig = yaml.load(yamlFileContent) as AppConfig;
   Logger.verbose(envConfig, '环境配置');
+
   return envConfig;
 };
 

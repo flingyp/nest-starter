@@ -272,3 +272,20 @@ export class Controller {
   }
 }
 ```
+
+另外也单独封装了一个 `RedisService` 在 `CommonModule` 全局模块中提供，这样就可以在需要使用 Redis 的地方直接注入 `RedisService` 即可
+
+```ts
+export class Controller {
+  constructor() {}
+
+  @Inject(RedisService)
+  private readonly redisService: RedisService;
+
+  @Get('hello')
+  async getHello() {
+    const setValue = await this.redisService.set(key, value);
+    const value = await this.redisService.get(key);
+  }
+}
+```
