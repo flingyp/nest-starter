@@ -1,159 +1,87 @@
 # Nest Starter
 
-## 模版文件目录
+一个基于 NestJS 框架的启动模板，集成了常用功能和最佳实践。
+
+## 功能特性
+
+- 🚀 基于 NestJS 10.x 版本
+- 📝 集成 Swagger 文档
+- 🔐 全局异常处理
+- 📦 统一响应格式
+- 🔧 环境配置管理
+- 📋 参数验证
+- 📊 Winston 日志系统
+- ⏰ 定时任务
+- 🗄️ TypeORM + MySQL
+- 📎 阿里云 OSS
+- 💾 Redis 支持
+- 🔨 ESLint + Prettier 代码规范
+
+## 项目结构
 
 ```sh
-├── README.md
-├── development.yaml # 开发环境配置文件
-├── nest-cli.json
-├── package.json
-├── pnpm-lock.yaml
-├── production.yaml # 生产环境配置文件
-├── src
-│   ├── app.module.ts # 根模块
-│   ├── config # 应用初始化配置
-│   ├── entities # 数据库表实体
-│   ├── filters # 过滤器
-│   ├── interceptors # 拦截器
-│   ├── main.ts # 应用入口文件
-│   ├── modules # 业务模块
-│   ├── schedules # 定时任务
-│   └── utils # 工具类
-├── tsconfig.build.json
-└── tsconfig.json
+src
+├── config # 配置文件
+├── entities # 数据库实体
+├── filters # 全局过滤器
+├── interceptors # 全局拦截器
+├── modules # 业务模块
+│ ├── Auth # 认证模块
+│ ├── Common # 公共模块
+│ └── Demo # 示例模块
+├── schedules # 定时任务
+├── utils # 工具类
+└── main.ts # 应用入口
 ```
 
-## 环境配置和全局配置
+## 快速开始
 
-一般在 `development.yaml` 和 `production.yaml` 配置好不同环境的配置，然后在 `config/app.config.ts` 中通过 `ConfigModule.forRoot()` 方法加载配置文件，并且之后可以通过 `ConfigService` 在引用中任何地方获取配置信息
+### 环境要求
 
-在 `scripts` 脚本中，通过 `cross-env` 设置Node环境变量，从而读取不同Yaml环境的配置
+- Node.js >= 16
+- MySQL (可选)
+- Redis (可选)
 
-```json
-{
-  "scripts": {
-    "start:dev": "cross-env NODE_ENV=development nest start --watch",
-    "start:debug": "cross-env NODE_ENV=development nest start --debug --watch",
-    "start:prod": "cross-env NODE_ENV=production node dist/main"
-  }
-}
-```
+### 安装依赖
 
-## API 多版本控制
+````
 
-```ts
-// config/app.config.ts
-app.enableVersioning({
-  type: VersioningType.HEADER,
-  header: 'X-API-VERSION',
-  defaultVersion: VERSION_NEUTRAL, // 默认全局路由无版本，不需要传递版本号标识
-});
+### 开发环境运行
 
-// 如果需要指定 Controller 或接口指定版本才有，则需要添加版本号标识，例如：
-@Controller()
-export class AppController {
-  constructor(private readonly appService: AppService) {}
+```bash
+npm run start:dev
+````
 
-  // 请求这个接口的时候，需要在请求头添加版本号标识 X-API-VERSION 并且值为 2
-  @Get()
-  @Version('2')
-  getHello(): string {
-    return this.appService.getHello();
-  }
-}
-```
+## 环境配置
 
-```ts
-// main.ts
-const configService = app.get(ConfigService);
-const APPLICATION_PORT = configService.get<number>('application.port');
-console.log('APPLICATION_PORT:', APPLICATION_PORT);
+项目使用 YAML 文件进行环境配置，配置文件位于项目根目录：
 
-// other modules
-constructor(private configService: ConfigService) {}
-const APPLICATION_PORT = this.configService.get<number>('application.port');
-```
+- `development.yaml` - 开发环境配置
+- `production.yaml` - 生产环境配置
 
-## 全局响应拦截器 GlobalResponseInterceptor
-
-`GlobalResponse` 全局响应类，用于统一返回格式，并且可以全局配置返回状态码
-
-```json
-{
-  "data": "Hello World!",
-  "code": 200,
-  "message": "操作成功",
-  "success": true
-}
-```
-
-## 全局异常过滤器 GlobalHttpExceptionFilter
-
-`GlobalHttpException` 全局异常类，用于统一处理异常，并且可以全局配置返回状态码
-
-```json
-{
-  "data": null,
-  "code": 409,
-  "message": "这是一条自定义错误信息",
-  "success": false
-}
-```
-
-正常逻辑代码抛出异常，可以这么写
-
-```ts
-// HttpException 是 Nest 提供的基础异常类，基于 HttpException 类还有很多子类，例如 BadRequestException、NotFoundException、UnauthorizedException 等
-throw new HttpException('这是一条自定义错误信息', HttpStatus.INTERNAL_SERVER_ERROR);
-```
-
-## 全局验证管道
-
-在 `app.config.ts` 配置了内置的验证管道，可以全局使用，用于验证 DTO 层面参数的有效性
-
-```ts
-app.useGlobalPipes(new ValidationPipe());
-```
-
-使用方式：
-
-```ts
-import { Body, Controller, Get, Post } from '@nestjs/common';
-import { AppService } from './app.service';
-import { IsEmail, IsNotEmpty } from 'class-validator';
-
-export class ValidationPipeDto {
-  @IsEmail({}, { message: '邮箱格式不正确' })
-  email: string;
-
-  @IsNotEmpty({ message: '密码不能为空' })
-  password: string;
-}
-
-@Controller()
-export class AppController {
-  constructor(private readonly appService: AppService) {}
-
-  @Post('validationPipe')
-  validationPipe(@Body() validationPipeDto: ValidationPipeDto) {
-    return validationPipeDto;
-  }
-}
-```
-
-## 快速创建一个模块
-
-- 参考 Demo模块：`modules/Demo`
-- 也可执行命令创建模块 `nest generate resource modules_name --no-spec`
-
-## 集成阿里云OSS
-
-在 `.yaml` 文件配置自己的阿里云OSS配置即可
-
-上传文件的接口在 `modules/Common/index.controller.ts` 中，可以参考使用
+主要配置项包括：
 
 ```yaml
-# 阿里OSS配置
+# 应用配置
+application:
+  port: 8080
+  prefix: 'api'
+  version: 1.0.0
+
+# MySQL配置
+mysql:
+  host: 'localhost'
+  port: 3306
+  username: 'root'
+  password: 'root'
+  database: 'your_database'
+
+# Redis配置
+redis:
+  host: 'localhost'
+  port: 6379
+
+# 阿里云OSS配置
 oss:
   endpoint: ''
   accessKeyId: ''
@@ -161,86 +89,53 @@ oss:
   bucket: ''
 ```
 
-## `compodoc` 生成文档
+## API 文档
 
-`compodoc` 本来是给 Angular 项目生成项目文档的，但是因为 Angular 和 NestJS 项目结构类似，所以也支持了 NestJS
+启动项目后，访问 `http://localhost:8080/swagger-docs` 查看 Swagger API 文档。
 
-它会列出项目的模块，可视化展示模块之间的依赖关系，展示每个模块下的 provider、exports 等
+## 主要功能说明
 
-安装：`pnpm add @compodoc/compodoc -D`
+### 全局响应格式
 
-- 生成文档：`npx @compodoc/compodoc -p tsconfig.json -s -o`
-- -p 是指定 tsconfig 文件
-- -s 是启动静态服务器
-- -o 是打开浏览器
-
-> 更多选项参考文档：[compodoc](https://compodoc.app/guides/options.html)
-
-## 系统日志输出和管理
-
-- [集成文档](https://www.levenx.com/article/how-to-use-winston-logging-system-in-nestjs)
-
-正常情况下，如果只需要在控制台输出日志打印信息即可，我们可以使用 NestJS 提供的 Logger 类或者直接使用 `console.log` 输出日志信息。但是当系统变得复杂的时候，我们可能需要将日志输出到文件中，或者使用日志管理系统来管理日志，这时候就需要用到日志框架 Winston
-
-项目中在 `utils/WinstonLogger` 定义了一个 `WinstonLogger` 类并且在 Common 全局模块导出，这样就可以在项目中直接使用 `WinstonLogger` 类来输出日志信息了，日志会输出在 logs 文件夹下
-
-```ts
-import { Controller, Get, Inject } from '@nestjs/common';
-import { ApiTags, ApiOperation } from '@nestjs/swagger';
-import { WinstonLogger } from 'src/utils/WinstonLogger';
-
-export class AuthController {
-  constructor() {}
-
-  @Inject(WinstonLogger)
-  private readonly logger: WinstonLogger;
-
-  @ApiOperation({ summary: 'Hello Auth!' })
-  @Get('hello')
-  getHello(): string {
-    this.logger.log('Doing something...');
-    // 其它逻辑
-    try {
-      // 尝试可能引发错误的操作
-      this.logger.warn('Warning something...');
-      return 'Hello World!';
-    } catch (error) {
-      this.logger.error('An error occurred', error.trace);
-    }
-  }
+```typescript
+{
+  data: T; // 响应数据
+  code: number; // 状态码
+  message: string; // 提示信息
+  success: boolean; // 请求是否成功
 }
 ```
 
-## 任务调度
+### 日志系统
 
-任务调度允许我们编写任意代码（方法/函数）在固定日期/时间、重复间隔或在指定间隔后执行一次
+使用 Winston 进行日志管理，日志文件保存在 `logs` 目录下：
 
-应用中所需要执行的任务调度在 `schedules` 目录中定义服务，所有的任务调度服务以具体名称+Task命名，例如：`DemoTask`，然后所有被 `@Injectable` 的任务需要在 `app.modules.ts` 中的 `providers` 中注册，以便于被应用扫描注册到
+- 按天轮转
+- 自动压缩归档
+- 支持多种日志级别
 
-```ts
-@Module({
-  imports: [ScheduleModule.forRoot()],
-  // 添加所有需要被扫描的任务调度服务
-  providers: [DemoTask],
-})
-export class AppModule {}
-```
+### 文件上传
 
-## Redis 配置
+支持文件上传至阿里云 OSS，需要在配置文件中设置相关参数。
 
-Redis 配置在 `.env` 文件中，在全局模块 CommonModule 中封装导出了一个全局的 RedisService，这样就可以在需要使用 Redis 的地方直接注入 `RedisService` 即可
+### 定时任务
 
-```ts
-export class Controller {
-  constructor() {}
+使用 `@nestjs/schedule` 实现定时任务，示例：
 
-  @Inject(RedisService)
-  private readonly redisService: RedisService;
-
-  @Get('hello')
-  async getHello() {
-    const setValue = await this.redisService.set(key, value);
-    const value = await this.redisService.get(key);
-  }
+```typescript
+@Cron('*/5 * * * * *')
+handleCron() {
+  // 每5秒执行一次
 }
 ```
+
+## 开发建议
+
+1. 遵循 NestJS 官方的开发规范和最佳实践
+2. 使用 DTO 进行数据验证和转换
+3. 保持模块的独立性和可复用性
+4. 合理使用依赖注入和装饰器
+
+## 许可证
+
+[MIT License](LICENSE)
