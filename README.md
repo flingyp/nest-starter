@@ -42,15 +42,34 @@ src
 - MySQL (可选)
 - Redis (可选)
 
-### 安装依赖
-
-````
-
-### 开发环境运行
+### 脚本命令
 
 ```bash
-npm run start:dev
-````
+# 安装依赖
+pnpm install
+
+# 开发环境运行
+pnpm run start:dev
+
+# 生产环境构建
+pnpm run build
+
+# 生产环境运行
+pnpm run start:prod
+
+# 调试模式运行
+pnpm run start:debug
+
+# 代码格式化
+pnpm run format
+
+# ESLint 检查并修复
+pnpm run lint
+
+# 生成项目文档
+pnpm run build:compodoc
+
+```
 
 ## 环境配置
 
