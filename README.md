@@ -133,6 +133,22 @@ oss:
 - 自动压缩归档
 - 支持多种日志级别
 
+```typescript
+import { WinstonLogger } from 'src/utils/WinstonLogger';
+
+@Injectable()
+export class DemoService {
+  @Inject(WinstonLogger)
+  private readonly logger: WinstonLogger;
+
+  output() {
+    this.logger.log('这是一个日志信息');
+  }
+}
+```
+
+注：如不需要使用外部日志时，可以直接使用 `console.log` 或 Logger 即可。[参考文档](https://nest.nodejs.cn/techniques/logger)
+
 ### 文件上传
 
 支持文件上传至阿里云 OSS，需要在配置文件中设置相关参数。
