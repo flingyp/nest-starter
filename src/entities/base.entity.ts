@@ -1,7 +1,7 @@
 import { CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
 // 公共实体类
-export abstract class CommonEntity {
+export abstract class BaseEntity {
   @CreateDateColumn({ name: 'created_time', comment: '创建日期' })
   createdAt: Date;
 
