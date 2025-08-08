@@ -4,6 +4,6 @@ import flypeng from '@flypeng/eslint-config';
 export default [
     ...flypeng(),
     {
-        ignores: ['README.md', 'dist', 'node_modules', 'build', 'coverage'],
+        ignores: ['*.md', 'dist', 'node_modules', 'build', 'coverage', 'docs'],
     },
 ];

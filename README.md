@@ -1,176 +1,300 @@
 # Nest Starter
 
-一个基于 NestJS 框架的启动模板，集成了常用功能和最佳实践。
+A modern NestJS starter template, integrated with common features and best practices.
 
-## 功能特性
+## ✨ Features
 
-- 🚀 基于 NestJS 10.x 版本
-- 📝 集成 Swagger 文档
-- 🔐 全局异常处理
-- 📦 统一响应格式
-- 🔧 环境配置管理
-- 📋 参数验证
-- 📊 Winston 日志系统
-- ⏰ 定时任务
-- 🗄️ TypeORM + MySQL
-- 📎 阿里云 OSS
-- 💾 Redis 支持
-- 🔨 ESLint + Prettier 代码规范
+- 🚀 **NestJS 11.x**
+- 📝 **Swagger/OpenAPI** documentation
+- 🔐 **Global exception handling** with unified error responses
+- 📦 **Unified response format** for consistent API responses
+- 🔧 **Environment configuration** with YAML support
+- 📋 **Request validation** with class-validator
+- 📊 **Winston logging** with daily rotation
+- ⏰ **Scheduled tasks** with @nestjs/schedule
+- 🗄️ **TypeORM + MySQL** (ready to configure)
+- 📎 **Aliyun OSS** integration for file uploads
+- 💾 **Redis** support (ready to configure)
+- 🔨 **ESLint + Prettier** code formatting
+- 🌐 **CORS** enabled
+- 🛡️ **Helmet** security headers
+- 📈 **API versioning** support
 
-## 项目结构
+## 🏗️ Project Structure
 
-```sh
-src
-├── config # 配置文件
-├── entities # 数据库实体
-├── filters # 全局过滤器
-├── interceptors # 全局拦截器
-├── modules # 业务模块
-│ ├── Auth # 认证模块
-│ ├── Common # 公共模块
-│ └── Demo # 示例模块
-├── schedules # 定时任务
-├── utils # 工具类
-└── main.ts # 应用入口
+```
+src/
+├── config/                 # Configuration files
+│   └── app.config.ts      # Application configuration
+├── entities/              # Database entities (TypeORM)
+├── filters/               # Global exception filters
+│   └── GlobalHttpExceptionFilter.ts
+├── interceptors/          # Global interceptors
+│   └── GlobalResponseInterceptor.ts
+├── modules/               # Business modules
+│   ├── Auth/             # Authentication module
+│   ├── Common/           # Common utilities module
+│   ├── Demo/             # Example module
+│   └── index.ts          # Module exports
+├── schedules/            # Scheduled tasks
+│   ├── DemoTask.ts       # Example scheduled task
+│   └── index.ts          # Task exports
+├── utils/                # Utility classes
+│   └── WinstonLogger.ts  # Winston logger service
+├── app.module.ts         # Root application module
+└── main.ts              # Application entry point
 ```
 
-## 快速开始
+## 🚀 Quick Start
 
-### 环境要求
+### Prerequisites
 
-- Node.js >= 16
-- MySQL (可选)
-- Redis (可选)
+- **Node.js** >= 16
+- **pnpm** (recommended) or npm/yarn
+- **MySQL** (optional, for database features)
+- **Redis** (optional, for caching)
 
-### 脚本命令
+### Installation
 
 ```bash
-# 安装依赖
+# Clone the repository
+git clone <repository-url>
+cd nest-starter
+
+# Install dependencies
 pnpm install
 
-# 开发环境运行
-pnpm run start:dev
+# Copy environment configuration
+cp development.yaml.example development.yaml
+cp production.yaml.example production.yaml
 
-# 生产环境构建
-pnpm run build
-
-# 生产环境运行
-pnpm run start:prod
-
-# 调试模式运行
-pnpm run start:debug
-
-# 代码格式化
-pnpm run format
-
-# ESLint 检查并修复
-pnpm run lint
-
-# 生成项目文档
-pnpm run build:compodoc
-
+# Edit configuration files with your settings
 ```
 
-## 环境配置
+### Development
 
-项目使用 YAML 文件进行环境配置，配置文件位于项目根目录：
+```bash
+# Start development server with hot reload
+pnpm start:dev
 
-- `development.yaml` - 开发环境配置
-- `production.yaml` - 生产环境配置
+# Start with debug mode
+pnpm start:debug
 
-主要配置项包括：
+# Build for production
+pnpm build
+
+# Start production server
+pnpm start:prod
+```
+
+### Available Scripts
+
+```bash
+# Development
+pnpm start:dev          # Start development server
+pnpm start:debug        # Start with debug mode
+
+# Production
+pnpm build              # Build for production
+pnpm start:prod         # Start production server
+
+# Code Quality
+pnpm lint               # Run ESLint and Prettier
+pnpm lint:fix           # Fix ESLint issues automatically
+
+# Documentation
+pnpm build:compodoc     # Generate API documentation
+```
+
+## ⚙️ Configuration
+
+The project uses YAML files for environment-specific configuration:
+
+### Environment Files
+
+- `development.yaml` - Development environment
+- `production.yaml` - Production environment
+
+### Configuration Structure
 
 ```yaml
-# 应用配置
+# Application settings
 application:
   port: 8080
   prefix: 'api'
-  version: 1.0.0
+  version: '1.0.0'
 
-# MySQL配置
+# Database configuration (TypeORM)
 mysql:
   host: 'localhost'
   port: 3306
   username: 'root'
-  password: 'root'
-  database: 'your_database'
+  password: 'password'
+  db: 'database_name'
+  synchronize: false
+  logging: true
 
-# Redis配置
+# Redis configuration
 redis:
   host: 'localhost'
   port: 6379
 
-# 阿里云OSS配置
+# Aliyun OSS configuration
 oss:
-  endpoint: ''
-  accessKeyId: ''
-  accessKeySecret: ''
-  bucket: ''
+  endpoint: 'your-oss-endpoint'
+  accessKeyId: 'your-access-key'
+  accessKeySecret: 'your-secret-key'
+  bucket: 'your-bucket-name'
 ```
 
-## API 文档
+## 📚 API Documentation
 
-启动项目后，访问 `http://localhost:8080/swagger-docs` 查看 Swagger API 文档。
+Once the application is running, access the Swagger documentation at:
 
-## 主要功能说明
+```
+http://localhost:8080/swagger-docs
+```
 
-### 全局响应格式
+## 🔧 Key Features
+
+### Unified Response Format
+
+All API responses follow a consistent format:
 
 ```typescript
 {
-  data: T; // 响应数据
-  code: number; // 状态码
-  message: string; // 提示信息
-  success: boolean; // 请求是否成功
+  data: T; // Response data
+  code: number; // HTTP status code
+  message: string; // Response message
+  success: boolean; // Success indicator
 }
 ```
 
-### 日志系统
+### Global Exception Handling
 
-使用 Winston 进行日志管理，日志文件保存在 `logs` 目录下：
-
-- 按天轮转
-- 自动压缩归档
-- 支持多种日志级别
+Automatic error handling with structured error responses:
 
 ```typescript
-import { WinstonLogger } from 'src/utils/WinstonLogger';
+// Example error response
+{
+  "data": null,
+  "code": 400,
+  "message": "Validation failed",
+  "success": false
+}
+```
+
+### Logging System
+
+Winston-based logging with daily rotation:
+
+```typescript
+import { WinstonLogger } from '../../utils/WinstonLogger.js';
 
 @Injectable()
-export class DemoService {
+export class ExampleService {
   @Inject(WinstonLogger)
   private readonly logger: WinstonLogger;
 
-  output() {
-    this.logger.log('这是一个日志信息');
+  someMethod() {
+    this.logger.log('Info message');
+    this.logger.error('Error message', 'stack trace');
+    this.logger.warn('Warning message');
   }
 }
 ```
 
-注：如不需要使用外部日志时，可以直接使用 `console.log` 或 Logger 即可。[参考文档](https://nest.nodejs.cn/techniques/logger)
+### Scheduled Tasks
 
-### 文件上传
-
-支持文件上传至阿里云 OSS，需要在配置文件中设置相关参数。
-
-### 定时任务
-
-使用 `@nestjs/schedule` 实现定时任务，示例：
+Example scheduled task implementation:
 
 ```typescript
-@Cron('*/5 * * * * *')
-handleCron() {
-  // 每5秒执行一次
+import { Cron } from '@nestjs/schedule';
+
+@Injectable()
+export class DemoTask {
+  @Cron('*/5 * * * * *') // Every 5 seconds
+  handleCron() {
+    this.logger.log('Scheduled task executed');
+  }
 }
 ```
 
-## 开发建议
+### File Upload to OSS
 
-1. 遵循 NestJS 官方的开发规范和最佳实践
-2. 使用 DTO 进行数据验证和转换
-3. 保持模块的独立性和可复用性
-4. 合理使用依赖注入和装饰器
+File upload functionality with Aliyun OSS:
 
-## 许可证
+```typescript
+@Post('upload')
+@UseInterceptors(FileInterceptor('file'))
+async uploadFile(@UploadedFile() file: Express.Multer.File) {
+  const result = await this.commonService.uploadFileToOSS(
+    file.buffer.toString(),
+    `/${file.originalname}`
+  );
+  return { url: result };
+}
+```
 
-[MIT License](LICENSE)
+## 🛠️ Development Guidelines
+
+### Module Structure
+
+Follow the established module pattern:
+
+```
+modules/
+├── FeatureName/
+│   ├── index.controller.ts    # Controllers
+│   ├── index.service.ts       # Services
+│   ├── index.module.ts        # Module definition
+│   └── index.dto.ts          # Data transfer objects
+```
+
+### Validation
+
+Use class-validator for request validation:
+
+```typescript
+import { IsEmail, IsNotEmpty } from 'class-validator';
+
+export class CreateUserDto {
+  @IsEmail()
+  email: string;
+
+  @IsNotEmpty()
+  password: string;
+}
+```
+
+## 🔒 Security Features
+
+- **Helmet** for security headers
+- **CORS** configuration
+- **Global exception filtering**
+- **Request validation**
+- **API versioning** support
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests if applicable
+5. Submit a pull request
+
+## 📄 License
+
+This project is licensed under the [MIT License](LICENSE).
+
+## 🆘 Support
+
+For issues and questions:
+
+1. Check the [NestJS documentation](https://docs.nestjs.com/)
+2. Review existing issues
+3. Create a new issue with detailed information
+
+---
+
+**Built with ❤️ using NestJS**

@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Cron } from '@nestjs/schedule';
 import { useDayjs } from '@flypeng/tool/browser';
-import { WinstonLogger } from 'src/utils/WinstonLogger';
+import { WinstonLogger } from '@/utils/WinstonLogger';
 
 @Injectable()
 export class DemoTask {

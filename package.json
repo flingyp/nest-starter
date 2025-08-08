@@ -6,14 +6,14 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "start": "nest start",
+    "start": "cross-env NODE_ENV=development nest start",
     "start:dev": "cross-env NODE_ENV=development nest start --watch",
     "start:debug": "cross-env NODE_ENV=development nest start --debug --watch",
     "start:prod": "cross-env NODE_ENV=production node dist/main",
-    "lint": "prettier . --write && eslint .",
-    "lint:fix": "prettier . --write && eslint . --fix",
     "build": "nest build",
-    "build:compodoc": "npx @compodoc/compodoc -p tsconfig.json"
+    "build:compodoc": "npx @compodoc/compodoc -p tsconfig.json",
+    "lint": "prettier . --write && eslint .",
+    "lint:fix": "prettier . --write && eslint . --fix"
   },
   "dependencies": {
     "@flypeng/tool": "^5.7.0",

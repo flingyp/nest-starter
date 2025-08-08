@@ -19,7 +19,8 @@
     "noFallthroughCasesInSwitch": false,
     "paths": {
       "@flypeng/tool/browser": ["node_modules/@flypeng/tool/dist/browser"],
-      "@flypeng/tool/node": ["node_modules/@flypeng/tool/dist/node"]
+      "@flypeng/tool/node": ["node_modules/@flypeng/tool/dist/node"],
+      "@/*": ["src/*"]
     }
   }
 }

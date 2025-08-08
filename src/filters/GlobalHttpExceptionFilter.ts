@@ -7,7 +7,7 @@ import {
   Logger,
 } from '@nestjs/common';
 import { Response } from 'express';
-import { ResponseInstance } from '../interceptors/GlobalResponseInterceptor';
+import { ResponseInstance } from '@/interceptors/GlobalResponseInterceptor';
 
 @Catch()
 export class GlobalHttpExceptionFilter implements ExceptionFilter {

@@ -13,9 +13,8 @@ import helmet from 'helmet';
 import * as yaml from 'js-yaml';
 import { join } from 'path';
 import { readFileSync } from 'fs';
-
-import { GlobalResponseInterceptor } from '../interceptors/GlobalResponseInterceptor';
-import { GlobalHttpExceptionFilter } from '../filters/GlobalHttpExceptionFilter';
+import { GlobalResponseInterceptor } from '@/interceptors/GlobalResponseInterceptor';
+import { GlobalHttpExceptionFilter } from '@/filters/GlobalHttpExceptionFilter';
 
 export default async () => {
   const env = process.env.NODE_ENV || 'development';
