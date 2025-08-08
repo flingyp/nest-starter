@@ -1,4 +1,10 @@
-import { Controller, Get, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  UploadedFile,
+  UseInterceptors,
+} from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiConsumes, ApiBody } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { useRandomString } from '@flypeng/tool/browser';
@@ -34,8 +40,10 @@ export class CommonController {
   async uploadFileToOSS(@UploadedFile() file: Express.Multer.File) {
     const filename = `${Date.now()}_${useRandomString(10, true)}_${file.originalname}`;
     const ossPath = `/${filename}`;
-    // @ts-ignore
-    const result = await this.commonService.uploadFileToOSS(file.buffer, ossPath);
+    const result = await this.commonService.uploadFileToOSS(
+      file.buffer.toString(),
+      ossPath,
+    );
     return {
       url: result,
     };

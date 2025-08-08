@@ -18,11 +18,17 @@ export class RedisService {
     this.client.connect();
 
     this.client.on('connect', () => {
-      Logger.verbose(`Redis 服务已连接: ${config.host}:${config.port}`, 'RedisService');
+      Logger.verbose(
+        `Redis 服务已连接: ${config.host}:${config.port}`,
+        'RedisService',
+      );
     });
 
     this.client.on('error', (err) => {
-      Logger.error(`Redis 服务连接失败 - ${JSON.stringify(err)}`, 'RedisService');
+      Logger.error(
+        `Redis 服务连接失败 - ${JSON.stringify(err)}`,
+        'RedisService',
+      );
     });
   }
 
@@ -52,7 +58,7 @@ export class RedisService {
 
   // 设置哈希表中指定键的字段和值，可选设置过期时间（秒）
   async hashSet(key: string, obj: Record<string, any>, ttl?: number) {
-    for (let name in obj) {
+    for (const name in obj) {
       await this.client.hSet(key, name, obj[name]);
     }
 

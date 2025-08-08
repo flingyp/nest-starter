@@ -1,4 +1,11 @@
-import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus, Logger } from '@nestjs/common';
+import {
+  ArgumentsHost,
+  Catch,
+  ExceptionFilter,
+  HttpException,
+  HttpStatus,
+  Logger,
+} from '@nestjs/common';
 import { Response } from 'express';
 import { ResponseInstance } from '../interceptors/GlobalResponseInterceptor';
 
@@ -10,16 +17,18 @@ export class GlobalHttpExceptionFilter implements ExceptionFilter {
     const response = ctx.getResponse<Response>();
 
     // 处理异常
-    const { code = HttpStatus.INTERNAL_SERVER_ERROR, message = '服务器内部错误' } = this.handleException(
-      exception,
-      request,
-    );
+    const {
+      code = HttpStatus.INTERNAL_SERVER_ERROR,
+      message = '服务器内部错误',
+    } = this.handleException(exception, request);
 
     // TODO: 记录错误日志(集成日志框架)
     this.logError(request, exception);
 
     // 发送响应
-    response.status(code).json(new ResponseInstance(null, code, message, false));
+    response
+      .status(code)
+      .json(new ResponseInstance(null, code, message, false));
   }
 
   private handleException(exception: unknown, request: Request) {
@@ -50,7 +59,7 @@ export class GlobalHttpExceptionFilter implements ExceptionFilter {
     }
 
     // 场景二：全局验证管道抛出的异常
-    // @ts-ignore
+    // @ts-expect-error 类型错误
     let message = response?.message;
     if (message && Array.isArray(message)) {
       message = message.join(',');
@@ -77,7 +86,12 @@ export class GlobalHttpExceptionFilter implements ExceptionFilter {
   }
 
   private logError(request: Request, exception: unknown) {
-    const errorStack = exception instanceof Error ? exception.stack : '未知错误';
-    Logger.error(`请求地址：${request.url} 请求方法：${request.method}`, errorStack, 'GlobalHttpExceptionFilter');
+    const errorStack =
+      exception instanceof Error ? exception.stack : '未知错误';
+    Logger.error(
+      `请求地址：${request.url} 请求方法：${request.method}`,
+      errorStack,
+      'GlobalHttpExceptionFilter',
+    );
   }
 }

@@ -16,7 +16,10 @@ async function bootstrap() {
 
   await app.listen(APPLICATION_PORT ?? 3000, () => {
     const BASE_URL = `http://localhost:${APPLICATION_PORT}`;
-    Logger.verbose(`服务运行在: ${BASE_URL}/${APPLICATION_PREFIX ?? ''}`, '服务启动');
+    Logger.verbose(
+      `服务运行在: ${BASE_URL}/${APPLICATION_PREFIX ?? ''}`,
+      '服务启动',
+    );
     Logger.verbose(`Swagger 文档运行在: ${BASE_URL}/swagger-docs`, '服务启动');
   });
 }

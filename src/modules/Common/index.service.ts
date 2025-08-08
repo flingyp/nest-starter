@@ -22,10 +22,9 @@ export class CommonService {
     try {
       res = await this.client.put(ossPath, localPath);
       await this.client.putACL(ossPath, 'public-read'); // 设置为公共可读
+      return res.url;
     } catch (error) {
       console.log('error:', error);
-    } finally {
-      return res.url;
     }
   }
 }

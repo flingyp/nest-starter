@@ -1,8 +1,7 @@
 {
-  "singleQuote": true,
-  "trailingComma": "all",
-  "semi": true,
-  "bracketSpacing": true,
-  "printWidth": 120,
-  "vueIndentScriptAndStyle": false
+    "semi": true,
+    "singleQuote": true,
+    "bracketSpacing": true,
+    "vueIndentScriptAndStyle": false,
+    "plugins": ["@prettier/plugin-oxc"]
 }

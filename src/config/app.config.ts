@@ -30,7 +30,10 @@ export default async () => {
   return envConfig;
 };
 
-export const initApplication = async (app: INestApplication, configService: ConfigService) => {
+export const initApplication = async (
+  app: INestApplication,
+  configService: ConfigService,
+) => {
   const APPLICATION_PREFIX = configService.get<string>('application.prefix');
   const APPLICATION_VERSION = configService.get<string>('application.version');
 
