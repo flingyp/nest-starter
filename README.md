@@ -8,12 +8,11 @@ A modern NestJS starter template, integrated with common features and best pract
 - 📝 **Swagger/OpenAPI** documentation
 - 🔐 **Global exception handling** with unified error responses
 - 📦 **Unified response format** for consistent API responses
-- 🔧 **Environment configuration** with YAML support
+- 🔧 **Environment configuration** with .env support
 - 📋 **Request validation** with class-validator
 - 📊 **Winston logging** with daily rotation
 - ⏰ **Scheduled tasks** with @nestjs/schedule
-- 🗄️ **TypeORM + MySQL** (ready to configure)
-- 📎 **Aliyun OSS** integration for file uploads
+- 🗄️ **Prisma ORM + PostgreSQL** for type-safe database access
 - 💾 **Redis** support (ready to configure)
 - 🔨 **ESLint + Prettier** code formatting
 - 🌐 **CORS** enabled
@@ -26,7 +25,9 @@ A modern NestJS starter template, integrated with common features and best pract
 src/
 ├── config/                 # Configuration files
 │   └── app.config.ts      # Application configuration
-├── entities/              # Database entities (TypeORM)
+├── prisma/                 # Prisma module
+│   ├── prisma.module.ts
+│   └── prisma.service.ts
 ├── filters/               # Global exception filters
 │   └── GlobalHttpExceptionFilter.ts
 ├── interceptors/          # Global interceptors
@@ -51,7 +52,7 @@ src/
 
 - **Node.js** >= 16
 - **pnpm** (recommended) or npm/yarn
-- **MySQL** (optional, for database features)
+- **PostgreSQL** (optional, for database features)
 - **Redis** (optional, for caching)
 
 ### Installation
@@ -65,10 +66,9 @@ cd nest-starter
 pnpm install
 
 # Copy environment configuration
-cp development.yaml.example development.yaml
-cp production.yaml.example production.yaml
+cp .env.example .env
 
-# Edit configuration files with your settings
+# Edit .env file with your settings
 ```
 
 ### Development
@@ -108,44 +108,57 @@ pnpm build:compodoc     # Generate API documentation
 
 ## ⚙️ Configuration
 
-The project uses YAML files for environment-specific configuration:
+The project uses `.env` files for environment-specific configuration:
 
 ### Environment Files
 
-- `development.yaml` - Development environment
-- `production.yaml` - Production environment
+- `.env.example` - Template file (committed to Git)
+- `.env` - Development environment (ignored by Git)
+- `.env.production` - Production environment (ignored by Git)
 
-### Configuration Structure
+### Configuration Setup
 
-```yaml
-# Application settings
-application:
-  port: 8080
-  prefix: 'api'
-  version: '1.0.0'
+1. Copy the example file:
 
-# Database configuration (TypeORM)
-mysql:
-  host: 'localhost'
-  port: 3306
-  username: 'root'
-  password: 'password'
-  db: 'database_name'
-  synchronize: false
-  logging: true
+   ```bash
+   cp .env.example .env
+   ```
 
-# Redis configuration
-redis:
-  host: 'localhost'
-  port: 6379
+2. Update the environment variables:
 
-# Aliyun OSS configuration
-oss:
-  endpoint: 'your-oss-endpoint'
-  accessKeyId: 'your-access-key'
-  accessKeySecret: 'your-secret-key'
-  bucket: 'your-bucket-name'
-```
+   ```env
+   # Application
+   NODE_ENV=development
+   APP_PORT=8080
+   APP_PREFIX=api
+   APP_VERSION=1.0.0
+
+   # Database (Prisma + PostgreSQL)
+   DATABASE_URL="postgresql://postgres:postgres@localhost:5432/nest_starter?schema=public"
+
+   # Redis
+   REDIS_HOST=localhost
+   REDIS_PORT=6379
+   ```
+
+### Database Setup (Prisma)
+
+1. Generate Prisma Client:
+
+   ```bash
+   npx prisma generate
+   ```
+
+2. Run database migrations (when you have models):
+
+   ```bash
+   npx prisma migrate dev
+   ```
+
+3. (Optional) Open Prisma Studio:
+   ```bash
+   npx prisma studio
+   ```
 
 ## 📚 API Documentation
 
@@ -163,10 +176,10 @@ All API responses follow a consistent format:
 
 ```typescript
 {
-  data: T; // Response data
-  code: number; // HTTP status code
-  message: string; // Response message
-  success: boolean; // Success indicator
+  data: T // Response data
+  code: number // HTTP status code
+  message: string // Response message
+  success: boolean // Success indicator
 }
 ```
 
@@ -189,17 +202,17 @@ Automatic error handling with structured error responses:
 Winston-based logging with daily rotation:
 
 ```typescript
-import { WinstonLogger } from '../../utils/WinstonLogger.js';
+import { WinstonLogger } from '../../utils/WinstonLogger.js'
 
 @Injectable()
 export class ExampleService {
   @Inject(WinstonLogger)
-  private readonly logger: WinstonLogger;
+  private readonly logger: WinstonLogger
 
   someMethod() {
-    this.logger.log('Info message');
-    this.logger.error('Error message', 'stack trace');
-    this.logger.warn('Warning message');
+    this.logger.log('Info message')
+    this.logger.error('Error message', 'stack trace')
+    this.logger.warn('Warning message')
   }
 }
 ```
@@ -209,13 +222,13 @@ export class ExampleService {
 Example scheduled task implementation:
 
 ```typescript
-import { Cron } from '@nestjs/schedule';
+import { Cron } from '@nestjs/schedule'
 
 @Injectable()
 export class DemoTask {
   @Cron('*/5 * * * * *') // Every 5 seconds
   handleCron() {
-    this.logger.log('Scheduled task executed');
+    this.logger.log('Scheduled task executed')
   }
 }
 ```
@@ -256,14 +269,14 @@ modules/
 Use class-validator for request validation:
 
 ```typescript
-import { IsEmail, IsNotEmpty } from 'class-validator';
+import { IsEmail, IsNotEmpty } from 'class-validator'
 
 export class CreateUserDto {
   @IsEmail()
-  email: string;
+  email: string
 
   @IsNotEmpty()
-  password: string;
+  password: string
 }
 ```
 

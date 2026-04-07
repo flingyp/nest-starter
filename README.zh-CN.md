@@ -121,30 +121,30 @@ pnpm build:compodoc     # 生成 API 文档
 # 应用设置
 application:
   port: 8080
-  prefix: 'api'
-  version: '1.0.0'
+  prefix: api
+  version: 1.0.0
 
 # 数据库配置 (TypeORM)
 mysql:
-  host: 'localhost'
+  host: localhost
   port: 3306
-  username: 'root'
-  password: 'password'
-  db: 'database_name'
+  username: root
+  password: password
+  db: database_name
   synchronize: false
   logging: true
 
 # Redis 配置
 redis:
-  host: 'localhost'
+  host: localhost
   port: 6379
 
 # 阿里云 OSS 配置
 oss:
-  endpoint: 'your-oss-endpoint'
-  accessKeyId: 'your-access-key'
-  accessKeySecret: 'your-secret-key'
-  bucket: 'your-bucket-name'
+  endpoint: your-oss-endpoint
+  accessKeyId: your-access-key
+  accessKeySecret: your-secret-key
+  bucket: your-bucket-name
 ```
 
 ## 📚 API 文档
@@ -163,10 +163,10 @@ http://localhost:8080/swagger-docs
 
 ```typescript
 {
-  data: T; // Response data
-  code: number; // HTTP status code
-  message: string; // Response message
-  success: boolean; // Success indicator
+  data: T // Response data
+  code: number // HTTP status code
+  message: string // Response message
+  success: boolean // Success indicator
 }
 ```
 
@@ -189,17 +189,17 @@ http://localhost:8080/swagger-docs
 基于 Winston 的日志系统，支持按天轮转：
 
 ```typescript
-import { WinstonLogger } from '../../utils/WinstonLogger.js';
+import { WinstonLogger } from '../../utils/WinstonLogger.js'
 
 @Injectable()
 export class ExampleService {
   @Inject(WinstonLogger)
-  private readonly logger: WinstonLogger;
+  private readonly logger: WinstonLogger
 
   someMethod() {
-    this.logger.log('信息日志');
-    this.logger.error('错误日志', '堆栈跟踪');
-    this.logger.warn('警告日志');
+    this.logger.log('信息日志')
+    this.logger.error('错误日志', '堆栈跟踪')
+    this.logger.warn('警告日志')
   }
 }
 ```
@@ -209,13 +209,13 @@ export class ExampleService {
 定时任务实现示例：
 
 ```typescript
-import { Cron } from '@nestjs/schedule';
+import { Cron } from '@nestjs/schedule'
 
 @Injectable()
 export class DemoTask {
   @Cron('*/5 * * * * *') // 每5秒执行一次
   handleCron() {
-    this.logger.log('定时任务已执行');
+    this.logger.log('定时任务已执行')
   }
 }
 ```
@@ -256,14 +256,14 @@ modules/
 使用 class-validator 进行请求验证：
 
 ```typescript
-import { IsEmail, IsNotEmpty } from 'class-validator';
+import { IsEmail, IsNotEmpty } from 'class-validator'
 
 export class CreateUserDto {
   @IsEmail()
-  email: string;
+  email: string
 
   @IsNotEmpty()
-  password: string;
+  password: string
 }
 ```
 

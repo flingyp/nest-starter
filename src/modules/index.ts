@@ -1,3 +1,3 @@
-export { DemoModule } from './Demo/index.module';
-export { CommonModule } from './Common/index.module';
-export { AuthModule } from './Auth/index.module';
+export { AuthModule } from './auth/index.module'
+export { CommonModule } from './common/index.module'
+export { DemoModule } from './demo/index.module'

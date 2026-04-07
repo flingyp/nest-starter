@@ -1,35 +1,50 @@
 {
-  "editor.formatOnSave": true,
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "editor.inlineSuggest.showToolbar": "onHover",
+  // Disable the default formatter, use eslint instead
+  "prettier.enable": false,
+  "editor.formatOnSave": false,
+
+  // Auto fix
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit",
-    "source.fixAll.stylelint": "explicit"
+    "source.organizeImports": "never"
   },
-  "eslint.enable": true,
-  "eslint.useFlatConfig": true,
-  "eslint.format.enable": true,
+
+  // Silent the stylistic rules in your IDE, but still auto fix them
+  "eslint.rules.customizations": [
+    { "rule": "style/*", "severity": "off", "fixable": true },
+    { "rule": "format/*", "severity": "off", "fixable": true },
+    { "rule": "*-indent", "severity": "off", "fixable": true },
+    { "rule": "*-spacing", "severity": "off", "fixable": true },
+    { "rule": "*-spaces", "severity": "off", "fixable": true },
+    { "rule": "*-order", "severity": "off", "fixable": true },
+    { "rule": "*-dangle", "severity": "off", "fixable": true },
+    { "rule": "*-newline", "severity": "off", "fixable": true },
+    { "rule": "*quotes", "severity": "off", "fixable": true },
+    { "rule": "*semi", "severity": "off", "fixable": true }
+  ],
+
+  // Enable eslint for all supported languages
   "eslint.validate": [
     "javascript",
     "javascriptreact",
     "typescript",
     "typescriptreact",
-    "jsx",
-    "tsx",
     "vue",
     "html",
     "markdown",
     "json",
     "jsonc",
-    "json5",
-    "yaml"
-  ],
-  "oxc.enable": false,
-  "css.validate": false,
-  "less.validate": false,
-  "scss.validate": false,
-  "stylelint.enable": true,
-  "stylelint.validate": ["css", "less", "scss", "sass", "vue", "postcss"],
-  "typescript.tsdk": "node_modules/typescript/lib",
-  "cSpell.words": ["flypeng"]
+    "yaml",
+    "toml",
+    "xml",
+    "gql",
+    "graphql",
+    "astro",
+    "svelte",
+    "css",
+    "less",
+    "scss",
+    "pcss",
+    "postcss"
+  ]
 }
